@@ -1,2 +1,7 @@
 # Mandelbrot-Parallelization
-Final project for parralel computing class
+
+  This code was for the final project in my parallel computing course, which was to write code to parallelize and load balance the Mandelbrot Set. To begin the assignment, we were given the starter code that produced a non-parallelized set, which took a few minutes to finish producing, and the goal was to drastically reduce this time through load balancing and parallelization.
+  
+  To accomplish this, I implemented a hybrid MPI and OpenMP solution using C. I started by dividing the Mandelbrot Set into individual rows, which could then be distributed among multiple MPI processes. Rather than assigning each process a fixed number of rows at the beginning, I implemented a dynamic load-balancing system in which the master process assigns a new row to a worker whenever it finishes its previous one. The purpose of this was to help prevent any processes from sitting idle while others are still working. I then incorporated OpenMP to further parallelize the workload by distributing the calculations within each row across multiple threads. Each worker process calculates its assigned row using its available threads before sending the completed results back to the master process, which then reconstructs the full image.
+  
+  The result was a program capable of generating the Mandelbrot Set using multiple processes and threads instead of relying on a single process to perform all the calculations. I also incorporated timing measurements using MPI and OpenMP to track the calculation time of individual processes and threads, allowing me to examine how the workload was distributed.
